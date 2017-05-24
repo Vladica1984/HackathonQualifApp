@@ -21,7 +21,7 @@ public class Article {
 
     public static final String FIELD_NAME_USER = "user";
 
-    @DatabaseField(columnName = FIELD_NAME_ID)
+    @DatabaseField(columnName = FIELD_NAME_ID, generatedId = true)
     private int aId;
     @DatabaseField(columnName = FIELD_ARTICLE_NAME)
     private String aName;
@@ -89,6 +89,6 @@ public class Article {
 
     @Override
     public String toString() {
-        return  aName + " "+ aDescription + " / Price: "+ aPrice ;
+        return  aName;
     }
 }

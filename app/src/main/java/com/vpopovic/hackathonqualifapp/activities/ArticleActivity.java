@@ -2,7 +2,9 @@ package com.vpopovic.hackathonqualifapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.vpopovic.hackathonqualifapp.R;
@@ -16,10 +18,10 @@ public class ArticleActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private Article a;
 
-    private EditText aName;
-    private EditText aDesc;
-    private EditText aPrice;
-    private EditText aDate;
+    private TextView aName;
+    private TextView aDesc;
+    private TextView aPrice;
+    private TextView aDate;
 
 
     @Override
@@ -28,14 +30,14 @@ public class ArticleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_article);
 
 
-        int articleconnect = getIntent().getExtras().getInt(DetailActivity.ARTICLE_KEY);
+        int artId = getIntent().getExtras().getInt(DetailActivity.ARTICLE_KEY_USER);
 
         try {
-            a = getDatabaseHelper().getmArticleDao().queryForId(articleconnect);
-            aName = (EditText) findViewById(R.id.article_name);
-            aDesc = (EditText) findViewById(R.id.article_description);
-            aPrice = (EditText) findViewById(R.id.article_price);
-            aDate = (EditText) findViewById(R.id.article_date);
+            a = getDatabaseHelper().getmArticleDao().queryForId(artId);
+            aName = (TextView) findViewById(R.id.article_name);
+            aDesc = (TextView) findViewById(R.id.article_description);
+            aPrice = (TextView) findViewById(R.id.article_price);
+            aDate = (TextView) findViewById(R.id.article_date);
 
             aName.setText(a.getaName());
             aDesc.setText(a.getaDescription());
@@ -49,6 +51,28 @@ public class ArticleActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.article_toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case (R.id.delete_article):
+
+                try {
+                    getDatabaseHelper().getmArticleDao().delete(a);
+                    finish();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public DatabaseHelper getDatabaseHelper() {

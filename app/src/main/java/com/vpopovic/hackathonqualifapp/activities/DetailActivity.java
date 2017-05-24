@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.vpopovic.hackathonqualifapp.R;
@@ -28,11 +29,11 @@ public class DetailActivity extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
     private User u;
-    public static  final String ARTICLE_KEY = "article key";
+    public static  final String ARTICLE_KEY_USER = "article key user";
 
-    private EditText uName;
-    private EditText uAdress;
-    private EditText uEmail;
+    private TextView uName;
+    private TextView uAdress;
+    private TextView uEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,9 @@ public class DetailActivity extends AppCompatActivity {
         try {
             u = getDatabaseHelper().getmUserDao().queryForId(userConnection);
 
-            uName = (EditText) findViewById(R.id.user_name_detail);
-            uAdress = (EditText) findViewById(R.id.user_adress_detail);
-            uEmail = (EditText) findViewById(R.id.user_email_detail);
+            uName = (TextView) findViewById(R.id.user_name_detail);
+            uAdress = (TextView) findViewById(R.id.user_adress_detail);
+            uEmail = (TextView) findViewById(R.id.user_email_detail);
 
             uName.setText(u.getuName());
             uAdress.setText(u.getuAdress());
@@ -73,7 +74,7 @@ public class DetailActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Article ar= (Article) userArticlesList.getItemAtPosition(position);
                     Intent intent = new Intent(DetailActivity.this,ArticleActivity.class);
-                    intent.putExtra(ARTICLE_KEY, ar.getaId());
+                    intent.putExtra(ARTICLE_KEY_USER, ar.getaId());
                     startActivity(intent);
                 }
             });
